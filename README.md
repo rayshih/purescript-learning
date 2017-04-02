@@ -14,7 +14,7 @@ I'm trying to target the very newcomers, like someone doesn't have any programmi
 So if there are some things need more advanced knowledge, I'll simply mark them as "medium" or
 "advanced" and won't describe the detail, and then carry on.
 
-## Current: Pux
+## Current: Lession 1 - Hello World
 
 Let's start with web app!
 
@@ -51,16 +51,50 @@ npm install
 npm start
 ```
 
+And then, give it a little time until it shows
 
-My Targets:
+```
+Listening on 3000
+```
 
-1. Hello World - create a runnable project
-2. Offline Todo List - modify the hello world project into a todo list without using API
+Then you can open your browser and type `localhost:3000` to see the web app you just created.
+
+Step 3: The Hello World
+
+There are lots of files created which seems a little bit scary. But please don't.
+Let's write our first line of code!
+
+Open the file `src/App/View/Homepage.purs` with any text editor you like.
+You will see bunch of `import`s, but you can ignore it for now.
+
+Follow that, there are 4 lines:
+
+```purescript
+view :: State -> HTML Event
+view (State st) =
+  div do
+    h1 $ a ! href "https://www.purescript-pux.org" $ text "purescript-pux.org"
+```
+
+Please do not try to understand them for now. I'll explain later.
+For the "Hello World", please replace the last 2 lines like this.
+
+```purescript
+view :: State -> HTML Event
+view (State st) =
+  text "Hello World"
+```
+
+Remember to save your file, and go back to your browser and witness the change you just made.
+(Don't need to refresh the page)
+
+You may see few warnings appear in your terminal. Don't worry, We'll clean them later.
+
+(To be continued)
 
 ## Next things to learn
 
 - Server side programming
-
 
 ## More Learning Materials
 
