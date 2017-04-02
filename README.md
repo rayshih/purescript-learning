@@ -78,12 +78,11 @@ view (State st) =
 ```
 
 Please do not try to understand them for now. I'll explain later.
-For the "Hello World", please replace the last 2 lines like this.
+For the "Hello World", please replace the last 3 lines like this.
 
 ```purescript
 view :: State -> HTML Event
-view (State st) =
-  text "Hello World"
+view _ = text "Hello World"
 ```
 
 Remember to save your file, and go back to your browser and witness the change you just made.
@@ -101,14 +100,13 @@ view :: State -> HTML Event
 
 -- The function to render the view,
 -- there is only one thing be rendered: text
-view (State st) =
-  text "Hello World"
+view _ = text "Hello World"
 ```
 
 The String:
 
 In any programming language, any value have type, like: String, Number.
-And to in order to identify whether a value is a string, we use double quotes.
+And in order to identify whether a value is a string, we use double quotes.
 The `"Hello World"` is the example we have here.
 
 What is the `text` here?
@@ -122,22 +120,17 @@ There are two parts of function:
 
 The `f(x) = x + 1` is the way we defined function in the school.
 In PureScript, it is almost the same. Just remove the parenthesis.
-
-Like this: `f x = x + 1`
+Like: `f x = x + 1`
 
 And the corresponding invocation: `f(3)`, which will give us `4`.
 In PureScript, we'll get the function by removing the parenthesis.
-
-Like this: `f 3`
+Like: `f 3`
 
 So in our first program:
 
 `view` is the function we defined, there is only one parameter,
-and we actually didn't use it at all. so it can be just:
-
-```purescript
-view _ = text "Hello World"
-```
+and we actually didn't use it at all. So we just place the underscore here to tell
+the computer we don't care about the input
 
 And the `text "Hello World"` is the funciton invocation.
 

@@ -9,5 +9,5 @@ import Text.Smolder.HTML.Attributes (href)
 import Text.Smolder.Markup ((!), text)
 
 view :: State -> HTML Event
-view (State st) =
+view _ =
   text "Hello World"
