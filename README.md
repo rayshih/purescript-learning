@@ -3,9 +3,10 @@
 This a repo that record my learning process of learning purescript.
 
 I created this repo to share my learning experience of purescript.
-Hope I can help more and more people get into know the beauty of functional programming.
+Hope I can help more and more people get into the beauty of functional programming.
 
 Welcome to leave any things as issues, like any parts that you don't understand or any suggestions.
+
 I mean ANYTHING!
 
 ## Some notices before start
@@ -22,16 +23,16 @@ There are several frameworks can be used, and I think the most easier one to sta
 
 Here is the official Pux website: <http://purescript-pux.org/>
 
-Let's start:
+Let's start!
 
-Step 1:
+### Step 1:
 
 Install npm, git.
 
 Npm is the tool related to JavaScript environment. And Git is a tool for version control.
 We don't need to learn the details of them for now.
 
-Step 2:
+### Step 2:
 
 Clone the starter project:
 
@@ -59,7 +60,7 @@ Listening on 3000
 
 Then you can open your browser and type `localhost:3000` to see the web app you just created.
 
-Step 3: The Hello World
+### Step 3: The Hello World
 
 There are lots of files created which seems a little bit scary. But please don't.
 Let's write our first line of code!
