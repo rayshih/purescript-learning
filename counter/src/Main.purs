@@ -6,29 +6,62 @@ import Control.Monad.Eff (Eff)
 import Pux (CoreEffects, EffModel, start)
 import Pux.Renderer.React (renderToDOM)
 import Pux.DOM.HTML (HTML)
-import Pux.DOM.Events (onClick)
+import Pux.DOM.Events (onClick, DOMEvent)
 import Text.Smolder.HTML (div, button)
 import Text.Smolder.Markup (text, (#!))
+import Data.Array (snoc, modifyAt, zip, (..), length)
+import Data.Foldable (for_)
+import Data.Maybe (fromMaybe)
+import Data.Tuple (Tuple(..))
 
-data Event = Increment | Decrement
+data Event = Increment Int
+           | Decrement Int
+           | NewCounter
 
-type State = Int
+type State = Array Int
+
+incr :: Int -> DOMEvent -> Event
+incr = const <<< Increment
+
+desc :: Int -> DOMEvent -> Event
+desc = const <<< Decrement
+
+counter :: Int -> Int -> HTML Event
+counter idx c =
+  div do
+    button #! onClick (incr idx) $ text "Increment"
+    text $ show c
+    button #! onClick (desc idx) $ text "Decrement"
 
 view :: State -> HTML Event
-view count =
+view arr =
   div do
-    button #! onClick (const Increment) $ text "Increment"
-    text $ show count
-    button #! onClick (const Decrement) $ text "Decrement"
+    div do
+      for_ arrWithIndex $ \(Tuple c idx) -> counter idx c
+    div do
+      button #! onClick (const NewCounter) $ text "New Counter"
+
+  where
+    arrWithIndex = zip arr (0 .. (length arr - 1))
+
+modifyAt' :: Int -> (Int -> Int) -> Array Int -> Array Int
+modifyAt' idx f arr = fromMaybe arr <<< modifyAt idx f $ arr
+
+incrAt :: Int -> Array Int -> Array Int
+incrAt idx = modifyAt' idx (_ + 1)
+
+descAt :: Int -> Array Int -> Array Int
+descAt idx = modifyAt' idx (_ - 1)
 
 foldp :: forall fx. Event -> State -> EffModel State Event fx
-foldp Increment state = { state: state + 1, effects: [] }
-foldp Decrement state = { state: state - 1, effects: [] }
+foldp (Increment idx) state = { state: incrAt idx state    , effects: [] }
+foldp (Decrement idx) state = { state: descAt idx state    , effects: [] }
+foldp NewCounter state      = { state: (snoc state 0)      , effects: [] }
 
 main :: forall fx. Eff (CoreEffects fx) Unit
 main = do
   app <- start
-    { initialState: 0
+    { initialState: []
     , view
     , foldp
     , inputs: []
