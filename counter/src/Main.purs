@@ -14,19 +14,21 @@ import Data.Foldable (for_)
 import Data.Maybe (fromMaybe)
 import Data.Tuple (Tuple(..))
 
-data Event = Increment Int
-           | Decrement Int
+newtype Idx = Idx Int
+
+data Event = Increment Idx
+           | Decrement Idx
            | NewCounter
 
 type State = Array Int
 
-incr :: Int -> DOMEvent -> Event
+incr :: Idx -> DOMEvent -> Event
 incr = const <<< Increment
 
-desc :: Int -> DOMEvent -> Event
+desc :: Idx -> DOMEvent -> Event
 desc = const <<< Decrement
 
-counter :: Int -> Int -> HTML Event
+counter :: Idx -> Int -> HTML Event
 counter idx c =
   div do
     button #! onClick (incr idx) $ text "Increment"
@@ -42,15 +44,15 @@ view arr =
       button #! onClick (const NewCounter) $ text "New Counter"
 
   where
-    arrWithIndex = zip arr (0 .. (length arr - 1))
+    arrWithIndex = zip arr $ map Idx (0 .. (length arr - 1))
 
-modifyAt' :: Int -> (Int -> Int) -> Array Int -> Array Int
-modifyAt' idx f arr = fromMaybe arr <<< modifyAt idx f $ arr
+modifyAt' :: Idx -> (Int -> Int) -> Array Int -> Array Int
+modifyAt' (Idx n) f arr = fromMaybe arr <<< modifyAt n f $ arr
 
-incrAt :: Int -> Array Int -> Array Int
+incrAt :: Idx -> Array Int -> Array Int
 incrAt idx = modifyAt' idx (_ + 1)
 
-descAt :: Int -> Array Int -> Array Int
+descAt :: Idx -> Array Int -> Array Int
 descAt idx = modifyAt' idx (_ - 1)
 
 foldp :: forall fx. Event -> State -> EffModel State Event fx
