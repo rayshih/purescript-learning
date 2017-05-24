@@ -9,7 +9,7 @@ import Pux.DOM.HTML (HTML)
 import Pux.DOM.Events (onClick, DOMEvent)
 import Text.Smolder.HTML (div, button)
 import Text.Smolder.Markup (text, (#!))
-import Data.Array (snoc, modifyAt, zip, (..), length)
+import Data.Array (snoc, modifyAt, mapWithIndex)
 import Data.Foldable (for_)
 import Data.Maybe (fromMaybe)
 import Data.Tuple (Tuple(..))
@@ -44,7 +44,7 @@ view arr =
       button #! onClick (const NewCounter) $ text "New Counter"
 
   where
-    arrWithIndex = zip arr $ map Idx (0 .. (length arr - 1))
+    arrWithIndex = mapWithIndex (\n c -> Tuple c (Idx n)) arr
 
 modifyAt' :: Idx -> (Int -> Int) -> Array Int -> Array Int
 modifyAt' (Idx n) f arr = fromMaybe arr <<< modifyAt n f $ arr
